@@ -253,7 +253,7 @@ class MirrorListener(listeners.MirrorListeners):
                 update_all_messages()
             return
         with download_dict_lock:
-            msg = f'<b>📂● File Name: </b><code>{download_dict[self.uid].name()}</code>\n\n<b>╔● সাইজ: </b>{size}'
+            msg = f'<b>📂● File Name: </b><code>{download_dict[self.uid].name()}</code>\n\n<b>╔● Size: </b>{size}'
             msg += f'\n<b>╟● File Type: </b>{typ}'
             if os.path.isdir(f'{DOWNLOAD_DIR}/{self.uid}/{download_dict[self.uid].name()}'):
                 msg += f'\n<b>╟● SubFolder: </b>{folders}'

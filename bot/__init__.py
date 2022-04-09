@@ -412,6 +412,15 @@ try:
         raise KeyError
 except:
     CUSTOM_FILENAME = None
+
+try:
+    APPDRIVE_EMAIL = getConfig('APPDRIVE_EMAIL')
+    APPDRIVE_PASS = getConfig('APPDRIVE_PASS')
+    if len(APPDRIVE_EMAIL) == 0 or len(APPDRIVE_PASS) == 0:
+        raise KeyError
+except KeyError:
+    APPDRIVE_EMAIL = None
+    APPDRIVE_PASS = None
 try:
     CRYPT = getConfig('CRYPT')
     if len(CRYPT) == 0:

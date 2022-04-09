@@ -388,7 +388,7 @@ class GoogleDriveHelper:
                     buttons.buildbutton("⚡ Index Link ⚡", url)
             else:
                 file = self.copyFile(meta.get('id'), parent_id)
-                msg += f'<b>ফাইলের নাম: </b><code>{file.get("name")}</code>'
+                msg += f'<b>File Name: </b><code>{file.get("name")}</code>'
                 durl = self.__G_DRIVE_BASE_DOWNLOAD_URL.format(file.get("id"))
                 buttons = button_build.ButtonMaker()
                 durl = short_url(durl)

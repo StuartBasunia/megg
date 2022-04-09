@@ -1,5 +1,4 @@
-import threading
-
+from threading import Thread
 from telegram import Update
 from telegram.ext import CommandHandler
 
@@ -25,9 +24,9 @@ def deletefile(update, context):
         drive = gdriveTools.GoogleDriveHelper()
         msg = drive.deletefile(link)
     else:
-        msg = 'Please send the gdrive link with the command.'
-    reply_message = sendMessage(msg, context.bot, update)
-    threading.Thread(target=auto_delete_message, args=(context.bot, update.message, reply_message)).start()
+        msg = 'Send Gdrive link along with command or by replying to the link by command'
+    reply_message = sendMessage(msg, context.bot, update.message)
+    Thread(target=auto_delete_message, args=(context.bot, update.message, reply_message)).start()
 
 delete_handler = CommandHandler(command=BotCommands.DeleteCommand, callback=deletefile, filters=CustomFilters.owner_filter | CustomFilters.sudo_user, run_async=True)
 dispatcher.add_handler(delete_handler)

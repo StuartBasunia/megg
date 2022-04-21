@@ -13,7 +13,7 @@ from time import sleep, time
 from threading import Thread, Lock
 from pyrogram import Client
 from dotenv import load_dotenv
-from helper.mirror_utils.download_utils.mega_downloader import AsyncExecutor
+from .helper.mirror_utils.download_utils.mega_downloader import AsyncExecutor
 from mega import MegaApi
 
 faulthandler.enable()

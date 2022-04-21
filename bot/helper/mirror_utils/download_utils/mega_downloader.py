@@ -138,6 +138,8 @@ def add_mega_download(mega_link: str, path: str, listener):
     global listeners
     api.addListener(mega_listener)
     listeners.append(mega_listener)
+    if MEGA_EMAIL_ID is not None and MEGA_PASSWORD is not None:
+        executor.do(api.login, (MEGA_EMAIL_ID, MEGA_PASSWORD))
     if get_mega_link_type(mega_link) == "file":
         LOGGER.info("File. If your download didn't start, then check your link if it's available to download")
         executor.do(api.getPublicNode, (mega_link,))
@@ -146,6 +148,7 @@ def add_mega_download(mega_link: str, path: str, listener):
         LOGGER.info("Folder. If your download didn't start, then check your link if it's available to download")
         folder_api = MegaApi(MEGA_API_KEY, None, None, 'bdxleech')
         folder_api.addListener(mega_listener)
+        executor.do(folder_api.loginToFolder, (mega_link,))
         node = folder_api.authorizeNode(mega_listener.node)
     if mega_listener.error is not None:
         return sendMessage(str(mega_listener.error), listener.bot, listener.message)

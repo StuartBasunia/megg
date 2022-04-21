@@ -9,7 +9,7 @@ from sys import executable
 from telegram import ParseMode, InlineKeyboardMarkup
 from telegram.ext import CommandHandler
 
-from bot import bot, app, dispatcher, updater, botStartTime, IGNORE_PENDING_REQUESTS, alive, web, AUTHORIZED_CHATS, LOGGER, Interval, rss_session, MEGA_API_KEY, MEGA_EMAIL_ID, MEGA_PASSWORD
+from bot import bot, app, dispatcher, updater, botStartTime, IGNORE_PENDING_REQUESTS, alive, web, AUTHORIZED_CHATS, LOGGER, Interval, rss_session
 from .helper.ext_utils.fs_utils import start_cleanup, clean_all, exit_clean_up
 from .helper.telegram_helper.bot_commands import BotCommands
 from .helper.telegram_helper.message_utils import sendMessage, sendMarkup, editMessage, sendLogFile
@@ -19,7 +19,7 @@ from .helper.telegram_helper.filters import CustomFilters
 from .helper.telegram_helper.button_build import ButtonMaker
 from .modules import authorize, list, cancel_mirror, mirror_status, mirror, clone, watch, shell, eval, delete, count, leech_settings, search, rss
 from .helper.mirror_utils.download_utils.mega_downloader import AsyncExecutor
-from mega import MegaApi
+
 
 def stats(update, context):
     if ospath.exists('.git'):
@@ -277,11 +277,6 @@ def main():
     dispatcher.add_handler(stats_handler)
     dispatcher.add_handler(log_handler)
     updater.start_polling(drop_pending_updates=IGNORE_PENDING_REQUESTS)
-    
-    executor = AsyncExecutor()
-    api = MegaApi(MEGA_API_KEY, None, None, 'bdxleech')
-    if MEGA_EMAIL_ID is not None and MEGA_PASSWORD is not None:
-        executor.do(api.login, (MEGA_EMAIL_ID, MEGA_PASSWORD))
 
     LOGGER.info("Bot Started!")
     signal.signal(signal.SIGINT, exit_clean_up)

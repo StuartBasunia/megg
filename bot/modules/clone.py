@@ -35,12 +35,12 @@ def cloneNode(update, context):
     is_gdtot = is_gdtot_link(link)
     if is_gdtot:
         try:
-            msg = sendMessage(f"Processing: <code>{link}</code>", bot, message)
+            msg = sendMessage(f"Processing: <code>{link}</code>", context.bot, msg)
             link = gdtot(link)
-            deleteMessage(bot, msg)
+            deleteMessage(context.bot, msg)
         except DirectDownloadLinkException as e:
-            deleteMessage(bot, msg)
-            return sendMessage(str(e), bot, message)
+            deleteMessage(context.bot, msg)
+            return sendMessage(str(e), context.bot, msg)
     is_appdrive = is_appdrive_link(link)
     if is_appdrive:
             try:

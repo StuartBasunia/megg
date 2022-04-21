@@ -36,8 +36,9 @@ def cloneNode(update, context):
     if is_gdtot:
         try:
             msg = sendMessage(f"Processing: <code>{link}</code>", context.bot, update)
-            link = gdtot(link)
             time.sleep(2)
+            link = gdtot(link)
+            
             deleteMessage(context.bot, msg)
         except DirectDownloadLinkException as e:
             deleteMessage(context.bot, msg)
@@ -47,9 +48,9 @@ def cloneNode(update, context):
     if is_appdrive:
         try:
             msg = sendMessage(f"Processing: <code>{link}</code>", context.bot, update)
+            time.sleep(2)
             apdict = appdrive(link)
             link = apdict.get('gdrive_link')
-            time.sleep(2)
             deleteMessage(context.bot, msg)
         except DirectDownloadLinkException as e:
             deleteMessage(context.bot, msg)

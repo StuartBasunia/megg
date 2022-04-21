@@ -1,7 +1,6 @@
 import logging
 import socket
 import faulthandler
-import time
 import sys
 
 from telegram.ext import Updater as tgUpdater
@@ -12,6 +11,7 @@ from requests import get as rget
 from json import loads as jsnloads
 from subprocess import Popen, run as srun, check_output
 import subprocess
+from time import sleep, time
 from threading import Thread, Lock
 from pyrogram import Client
 from dotenv import load_dotenv
@@ -219,7 +219,6 @@ if MEGA_KEY is not None:
     except OSError:
         LOGGER.error("Megasdkrest Binary might have got damaged, Please Check ..")
         sys.exit(0)
-    time.sleep(3)
     mega_client = MegaSdkRestClient('http://localhost:6090')
     try:
         MEGA_USERNAME = getConfig('MEGA_USERNAME')

@@ -13,6 +13,7 @@ from time import sleep, time
 from threading import Thread, Lock
 from pyrogram import Client
 from dotenv import load_dotenv
+from megasdkrestclient import MegaSdkRestClient, errors as mega_err
 
 faulthandler.enable()
 
@@ -202,20 +203,41 @@ try:
 except:
     STATUS_LIMIT = None
 try:
-    MEGA_API_KEY = getConfig('MEGA_API_KEY')
-    if len(MEGA_API_KEY) == 0:
-        raise KeyError
-except:
-    logging.warning('MEGA API KEY not provided!')
-    MEGA_API_KEY = None
-try:
-    MEGA_EMAIL_ID = getConfig('MEGA_EMAIL_ID')
-    MEGA_PASSWORD = getConfig('MEGA_PASSWORD')
-    if len(MEGA_EMAIL_ID) == 0 or len(MEGA_PASSWORD) == 0:
-        raise KeyError
-except:
-    logging.warning('MEGA Credentials not provided!')
-    MEGA_EMAIL_ID = None
+    MEGA_KEY = getConfig('MEGA_KEY')
+except KeyError:
+    MEGA_KEY = None
+    LOGGER.info('MEGA API KEY NOT AVAILABLE')
+MEGA_CHILD_PROC = None
+if MEGA_KEY is not None:
+    try:
+        MEGA_CHILD_PROC = subprocess.Popen(["megasdkrest", "--apikey", MEGA_KEY])
+    except FileNotFoundError:
+        LOGGER.error("Please install Megasdkrest Binary, Exiting..")
+        sys.exit(0)
+    except OSError:
+        LOGGER.error("Megasdkrest Binary might have got damaged, Please Check ..")
+        sys.exit(0)
+    time.sleep(3)
+    mega_client = MegaSdkRestClient('http://localhost:6090')
+    try:
+        MEGA_USERNAME = getConfig('MEGA_USERNAME')
+        MEGA_PASSWORD = getConfig('MEGA_PASSWORD')
+        if len(MEGA_USERNAME) > 0 and len(MEGA_PASSWORD) > 0:
+            try:
+                mega_client.login(MEGA_USERNAME, MEGA_PASSWORD)
+            except mega_err.MegaSdkRestClientException as e:
+                logging.error(e.message['message'])
+                exit(0)
+        else:
+            LOGGER.info("Mega API KEY provided but credentials not provided. Starting mega in anonymous mode!")
+            MEGA_USERNAME = None
+            MEGA_PASSWORD = None
+    except KeyError:
+        LOGGER.info("Mega API KEY provided but credentials not provided. Starting mega in anonymous mode!")
+        MEGA_USERNAME = None
+        MEGA_PASSWORD = None
+else:
+    MEGA_USERNAME = None
     MEGA_PASSWORD = None
 try:
     UPTOBOX_TOKEN = getConfig('UPTOBOX_TOKEN')

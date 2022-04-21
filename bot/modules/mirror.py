@@ -435,7 +435,8 @@ def _mirror(bot, message, isZip=False, extract=False, isQbit=False, isLeech=Fals
         if link_type == "folder" and BLOCK_MEGA_FOLDER:
             sendMessage("Mega folder are blocked!", bot, message)
         else:
-            Thread(target=add_mega_download, args=(link, f'{DOWNLOAD_DIR}{listener.uid}/', listener)).start()
+            mega_dl = MegaDownloader(listener)
+            mega_dl.add_download(link, f'{DOWNLOAD_DIR}/{listener.uid}/')
     elif isQbit and (is_magnet(link) or ospath.exists(link)):
         Thread(target=add_qb_torrent, args=(link, f'{DOWNLOAD_DIR}{listener.uid}', listener, qbitsel)).start()
     else:

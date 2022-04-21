@@ -519,11 +519,6 @@ except:
     SEARCH_PLUGINS = None
 
 
-executor = AsyncExecutor()
-api = MegaApi(MEGA_API_KEY, None, None, 'bdxleech')
-if MEGA_EMAIL_ID is not None and MEGA_PASSWORD is not None:
-    executor.do(api.login, (MEGA_EMAIL_ID, MEGA_PASSWORD))
-
 
 updater = tgUpdater(token=BOT_TOKEN, request_kwargs={'read_timeout': 20, 'connect_timeout': 15})
 bot = updater.bot

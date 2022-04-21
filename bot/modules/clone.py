@@ -32,22 +32,26 @@ def cloneNode(update, context):
             tag = f"@{reply_to.from_user.username}"
         else:
             tag = reply_to.from_user.mention_html(reply_to.from_user.first_name)
-    try:
-        msg = sendMessage(f"<b>Processing:</b> <code>{link}</code>", context.bot, update)
-        LOGGER.info(f"Processing: {link}")
-        is_gdtot = is_gdtot_link(link)
-        if is_gdtot:
+    is_gdtot = is_gdtot_link(link)
+    if is_gdtot:
+        try:
+            msg = sendMessage(f"Processing: <code>{link}</code>", bot, message)
             link = gdtot(link)
-        is_appdrive = is_appdrive_link(link)
-        if is_appdrive:
-            apdict = appdrive(link)
-            link = apdict.get('gdrive_link')
-        deleteMessage(context.bot, msg)
-    except DirectDownloadLinkException as e:
-        deleteMessage(context.bot, msg)
-        LOGGER.error(e)
-        return sendMessage(str(e), context.bot, update)
-               
+            deleteMessage(bot, msg)
+        except DirectDownloadLinkException as e:
+            deleteMessage(bot, msg)
+            return sendMessage(str(e), bot, message)
+    is_appdrive = is_appdrive_link(link)
+    if is_appdrive:
+            try:
+                apdict = appdrive(link)
+                link = apdict.get('gdrive_link')
+                deleteMessage(context.bot, msg)
+            except DirectDownloadLinkException as e:
+                deleteMessage(context.bot, msg)
+                LOGGER.error(e)
+                return sendMessage(str(e), context.bot, update)
+                        
     if is_gdrive_link(link):
         gd = GoogleDriveHelper()
         res, size, name, files = gd.helper(link)

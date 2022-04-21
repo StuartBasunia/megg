@@ -43,14 +43,15 @@ def cloneNode(update, context):
             return sendMessage(str(e), context.bot, msg)
     is_appdrive = is_appdrive_link(link)
     if is_appdrive:
-            try:
-                apdict = appdrive(link)
-                link = apdict.get('gdrive_link')
-                deleteMessage(context.bot, msg)
-            except DirectDownloadLinkException as e:
-                deleteMessage(context.bot, msg)
-                LOGGER.error(e)
-                return sendMessage(str(e), context.bot, update)
+        try:
+            msg = sendMessage(f"Processing: <code>{link}</code>", context.bot, update)
+            apdict = appdrive(link)
+            link = apdict.get('gdrive_link')
+            deleteMessage(context.bot, msg)
+        except DirectDownloadLinkException as e:
+            deleteMessage(context.bot, msg)
+            LOGGER.error(e)
+            return sendMessage(str(e), context.bot, update)
                         
     if is_gdrive_link(link):
         gd = GoogleDriveHelper()

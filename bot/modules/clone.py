@@ -40,7 +40,7 @@ def cloneNode(update, context):
             deleteMessage(context.bot, msg)
         except DirectDownloadLinkException as e:
             deleteMessage(context.bot, msg)
-            return sendMessage(str(e), context.bot, msg)
+        return sendMessage(str(e), context.bot, msg)
     is_appdrive = is_appdrive_link(link)
     if is_appdrive:
         try:
@@ -51,7 +51,7 @@ def cloneNode(update, context):
         except DirectDownloadLinkException as e:
             deleteMessage(context.bot, msg)
             LOGGER.error(e)
-            return sendMessage(str(e), context.bot, update)
+        return sendMessage(str(e), context.bot, update)
                         
     if is_gdrive_link(link):
         gd = GoogleDriveHelper()

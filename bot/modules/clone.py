@@ -36,7 +36,6 @@ def cloneNode(update, context):
     if is_gdtot:
         try:
             msg = sendMessage(f"Processing: <code>{link}</code>", context.bot, update.message)
-            time.sleep(2)
             link = gdtot(link)
             
             deleteMessage(context.bot, msg)
@@ -48,7 +47,6 @@ def cloneNode(update, context):
     if is_appdrive:
         try:
             msg = sendMessage(f"Processing: <code>{link}</code>", context.bot, update.message)
-            time.sleep(2)
             apdict = appdrive(link)
             link = apdict.get('gdrive_link')
             deleteMessage(context.bot, msg)

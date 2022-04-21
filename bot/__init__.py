@@ -12,7 +12,6 @@ from requests import get as rget
 from json import loads as jsnloads
 from subprocess import Popen, run as srun, check_output
 import subprocess
-from time import sleep, time
 from threading import Thread, Lock
 from pyrogram import Client
 from dotenv import load_dotenv

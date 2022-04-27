@@ -114,11 +114,10 @@ def _clone(message, bot, multi=0):
                     update_all_messages()
             except IndexError:
                 pass
-        cc = f'\n\n<b>cc: </b>{tag}'
         if button in ["cancelled", ""]:
             sendMessage(f"{tag} {result}", bot, message)
         else:
-            sendMarkup(result + cc, bot, message, button)
+            sendMarkup(result, bot, message, button)
         if is_gdtot:
             gd.deletefile(link)
         LOGGER.info(f"Cloning Done: {name}")
